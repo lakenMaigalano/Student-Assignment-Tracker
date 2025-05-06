@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Assignment Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Fixed Header with Toggle Button -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <button class="toggle-btn" id="sidebarToggle">
+        <i class="bi bi-list"></i>
+      </button>
+      <a class="navbar-brand fw-bold" href="index.html">Student Assignment Tracker</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="tasks.html">Tasks</a></li>
+          <li class="nav-item"><a class="nav-link" href="reminders.html">Reminders</a></li>
+          <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <ul class="sidebar-menu">
+      <li><a href="index.html"><i class="bi bi-house"></i> Home</a></li>
+      <li><a href="tasks.html"><i class="bi bi-list-task"></i> Tasks</a></li>
+      <li><a href="reminders.html"><i class="bi bi-bell"></i> Reminders</a></li>
+      <li><a href="login.html"><i class="bi bi-box-arrow-in-right"></i> Login</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container mt-4">
+      <div class="card p-3 mb-4">
+        <h4 class="fw-bold">Overview</h4>
+        <p><strong>Course:</strong> BSCS - 1st year</p>
+        <p><strong>Type:</strong> Homework / Project / Exam</p>
+        <p><strong>Status:</strong> 
+          <span class="badge bg-secondary">Pending</span> 
+          <span class="badge bg-warning text-dark">In Progress</span> 
+          <span class="badge bg-success">Completed</span>
+        </p>
+        <label><strong>Due Date:</strong> <input type="date" class="form-control w-25"></label>
+      </div>
+
+      <div class="row justify-content-center mb-4">
+        <div class="col-md-5">
+          <div class="card bg-light p-3 h-100 dashboard-item" onclick="setaActive(this)">
+            <h5><i class="bi bi-list-task"></i> Task Summary</h5>
+            <div id="homeTaskSummary">
+              <p>Loading tasks...</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="card bg-light p-3 h-100 dashboard-item" onclick="setaActive(this)">
+            <h5><i class="bi bi-bell"></i> Urgent Reminders</h5>
+            <div id="homeReminderSummary">
+              <p>Loading reminders...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-5">
+        <div class="col-md-6">
+          <div class="card p-3">
+            <h5 class="fw-bold">Recent Schedule</h5>
+            <table class="table">
+              <thead>
+                <tr><th>Task</th><th>Deadline</th></tr>
+              </thead>
+              <tbody id="recentSchedule">
+                <!-- Filled by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card p-3">
+            <h5 class="fw-bold">Quick Actions</h5>
+            <div class="d-grid gap-2">
+              <a href="tasks.html" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add New Task</a>
+              <a href="reminders.html" class="btn btn-warning"><i class="bi bi-bell"></i> View Reminders</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Fixed Footer -->
+  <footer class="footer">
+    <p class="mb-0">© <span id="current-year">2025</span> Student Assignment Tracker. All Rights Reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Toggle sidebar
+    document.getElementById('sidebarToggle').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('active');
+    });
+
+    // Update copyright year
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    
+    // Load sample data
+    setTimeout(() => {
+      document.getElementById('homeTaskSummary').innerHTML = `
+        <p><strong>3</strong> Active Tasks</p>
+        <p><span class="badge bg-warning text-dark">2</span> In Progress</p>
+        <p><span class="badge bg-success">1</span> Completed</p>
+      `;
+      
+      document.getElementById('homeReminderSummary').innerHTML = `
+        <div class="alert alert-warning p-2 mb-2">
+          <strong>HUMCOM</strong> - Due in 2 days
+        </div>
+        <div class="alert alert-danger p-2">
+          <strong>PROGIT</strong> - Due tomorrow
+        </div>
+      `;
+      
+      document.getElementById('recentSchedule').innerHTML = `
+        <tr><td>SITNET Subnetting</td><td>April 26</td></tr>
+        <tr><td>NSTP Training</td><td>April 27</td></tr>
+        <tr><td>HUMCOM Project</td><td>April 28</td></tr>
+      `;
+    }, 500);
+  </script>
+  <script>
+    function setActive(element) {
+      // Remove active class from all items
+      document.querySelectorAll('.dashboard-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      
+      // Add active class to clicked item
+      element.classList.add('active');
+      
+      // Optional: Add your click functionality here
+      if(element.querySelector('h5').textContent.includes('Task')) {
+        // Task card clicked
+      } else {
+        // Reminders card clicked
+      }
+    }
+    </script>
+</body>
+</html>

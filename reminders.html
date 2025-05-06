@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reminders | Student Assignment Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+   <!-- Fixed Header with Toggle Button -->
+   <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <button class="toggle-btn" id="sidebarToggle">
+        <i class="bi bi-list"></i>
+      </button>
+      <a class="navbar-brand fw-bold" href="reminders.html">Student Assignment Tracker</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="tasks.html">Tasks</a></li>
+          <li class="nav-item"><a class="nav-link" href="reminders.html">Reminders</a></li>
+          <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <ul class="sidebar-menu">
+      <li><a href="index.html"><i class="bi bi-house"></i> Home</a></li>
+      <li><a href="tasks.html"><i class="bi bi-list-task"></i> Tasks</a></li>
+      <li><a href="reminders.html"><i class="bi bi-bell"></i> Reminders</a></li>
+      <li><a href="login.html"><i class="bi bi-box-arrow-in-right"></i> Login</a></li>
+    </ul>
+  </aside>
+
+
+  <div class="container mt-4">
+    <div class="card p-3 mb-4">
+      <h4 class="fw-bold">Upcoming Deadlines</h4>
+      <div class="d-flex align-items-center">
+        <span class="badge bg-danger me-3">2 Urgent</span>
+        <span class="badge bg-warning text-dark">3 Approaching</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-4">
+        <div class="card border-danger">
+          <div class="card-header bg-danger text-white">
+            <h5 class="mb-0"><i class="bi bi-exclamation-triangle-fill me-2"></i>Urgent</h5>
+          </div>
+          <div class="card-body">
+            <div class="alert alert-danger mb-3">
+              <div class="d-flex justify-content-between">
+                <strong>HUMCOM</strong>
+                <span class="due-date" data-date="2025-04-26">Due tomorrow</span>
+              </div>
+              <p class="mb-0 mt-2">90% Website Checking</p>
+            </div>
+            <div class="alert alert-danger mb-3">
+              <div class="d-flex justify-content-between">
+                <strong>NSTP</strong>
+                <span class="due-date" data-date="2025-04-27">Due in 2 days</span>
+              </div>
+              <p class="mb-0 mt-2">Basic Life Training Support</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-4">
+        <div class="card border-warning">
+          <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0"><i class="bi bi-clock-fill me-2"></i>Approaching</h5>
+          </div>
+          <div class="card-body">
+            <div class="alert alert-warning mb-3">
+              <div class="d-flex justify-content-between">
+                <strong>OPSYST</strong>
+                <span class="due-date" data-date="2025-04-28">Due in 2 days</span>
+              </div>
+              <p class="mb-0 mt-2">Quiz</p>
+            </div>
+            <div class="alert alert-warning mb-3">
+              <div class="d-flex justify-content-between">
+                <strong>HUMCOM Presentation</strong>
+                <span class="due-date" data-date="2025-04-29">Due in 4 days</span>
+              </div>
+              <p class="mb-0 mt-2">Individual Project Slides</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-3">
+      <h5 class="fw-bold mb-3"><i class="bi bi-bell-fill me-2"></i>Reminder Settings</h5>
+      <form>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Notification Type</label>
+            <select class="form-select">
+              <option>Email Alerts</option>
+              <option>Browser Notifications</option>
+              <option>Both</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Alert Before Due Date</label>
+            <select class="form-select">
+              <option>1 day</option>
+              <option selected>3 days</option>
+              <option>1 week</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Settings</button>
+      </form>
+    </div>
+  </div>
+
+  <footer class="bg-dark-blue text-white text-center py-3">
+    <p class="mb-0">© <span id="current-year">2025</span> Student Assignment Tracker. All Rights Reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Update copyright year
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+      
+      // Calculate days remaining for each deadline
+      document.querySelectorAll('.due-date').forEach(element => {
+        const dueDate = new Date(element.dataset.date);
+        const today = new Date();
+        const diffTime = dueDate - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (diffDays <= 0) {
+          element.textContent = "Due today!";
+        } else if (diffDays === 1) {
+          element.textContent = "Due tomorrow";
+        } else {
+          element.textContent = `Due in ${diffDays} days`;
+        }
+      });
+    });
+  </script>
+   <script>
+     // Toggle sidebar
+     document.getElementById('sidebarToggle').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('active');
+    });
+    function setActive(element) {
+      // Remove active class from all items
+      document.querySelectorAll('.dashboard-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      
+      // Add active class to clicked item
+      element.classList.add('active');
+      
+      // Optional: Add your click functionality here
+      if(element.querySelector('h5').textContent.includes('Task')) {
+        // Task card clicked
+      } else {
+        // Reminders card clicked
+      }
+    }
+    </script>
+</body>
+ <!-- Fixed Footer -->
+ <footer class="footer">
+    <p class="mb-0">© <span id="current-year">2025</span> Student Assignment Tracker. All Rights Reserved.</p>
+  </footer>
+</html>
